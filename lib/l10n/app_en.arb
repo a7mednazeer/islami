@@ -9,5 +9,6 @@
     "sura": "Sura",
     "dark": "Dark Mode",
     "language": "Language",
-    "sound": "Quran"
+    "sound": "Quran",
+    "tasbeh": "Number of Taasbehat"
 }
