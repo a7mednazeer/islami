@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:islami/app_theme.dart';
 import 'package:islami/tabs/quran/quran_tab.dart';
+import 'package:islami/tabs/settings/settings_provider.dart';
 import 'package:islami/widgets/loading_indicator.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class SuraScreen extends StatefulWidget {
   SuraScreen({super.key});
@@ -24,16 +28,19 @@ class _SuraScreenState extends State<SuraScreen> {
       loadSuraFile();
     }
 
+    SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
+
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('assets/images/bg.png'),
+          image: AssetImage(
+              'assets/images/${settingsProvider.backgroundImageName}.png'),
           fit: BoxFit.fill,
         ),
       ),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('إسلامي'),
+          title: Text(AppLocalizations.of(context)!.islami),
         ),
         body: Container(
           padding: const EdgeInsets.all(20),
@@ -42,7 +49,8 @@ class _SuraScreenState extends State<SuraScreen> {
             vertical: MediaQuery.of(context).size.height * 0.1,
           ),
           decoration: BoxDecoration(
-            color: AppTheme.white,
+            color:
+                settingsProvider.isDark ? AppTheme.darkPrimary : AppTheme.white,
             borderRadius: BorderRadius.circular(25),
           ),
           child: Column(
@@ -52,13 +60,20 @@ class _SuraScreenState extends State<SuraScreen> {
                 children: [
                   Text(
                     'سورة ${args.suraName}',
-                    style: Theme.of(context).textTheme.headlineLarge,
+                    style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                          color: settingsProvider.isDark
+                              ? AppTheme.white
+                              : AppTheme.black,
+                        ),
                   ),
                   IconButton(
                     onPressed: () {},
                     icon: Icon(
                       Icons.play_circle,
                       size: 30,
+                      color: settingsProvider.isDark
+                          ? AppTheme.white
+                          : AppTheme.black,
                     ),
                   ),
                 ],
